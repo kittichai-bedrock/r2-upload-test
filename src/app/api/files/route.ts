@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { ListObjectsV2Command } from '@aws-sdk/client-s3';
-import { r2Client, R2_BUCKET, R2_PUBLIC_URL } from '@/lib/r2';
+import { getR2Client, R2_BUCKET, R2_PUBLIC_URL } from '@/lib/r2';
 
 export async function GET() {
   try {
@@ -9,7 +9,7 @@ export async function GET() {
       Prefix: 'uploads/',
     });
 
-    const response = await r2Client.send(command);
+    const response = await getR2Client().send(command);
     const files = (response.Contents || []).map((item) => ({
       key: item.Key,
       size: item.Size,

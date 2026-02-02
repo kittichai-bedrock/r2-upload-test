@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { DeleteObjectCommand } from '@aws-sdk/client-s3';
-import { r2Client, R2_BUCKET } from '@/lib/r2';
+import { getR2Client, R2_BUCKET } from '@/lib/r2';
 
 type Params = Promise<{ key: string[] }>;
 
@@ -17,7 +17,7 @@ export async function DELETE(
       Key: key,
     });
 
-    await r2Client.send(command);
+    await getR2Client().send(command);
 
     return NextResponse.json({
       success: true,

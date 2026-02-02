@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { PutObjectCommand } from '@aws-sdk/client-s3';
-import { r2Client, R2_BUCKET, R2_PUBLIC_URL } from '@/lib/r2';
+import { getR2Client, R2_BUCKET, R2_PUBLIC_URL } from '@/lib/r2';
 
 export async function POST(request: NextRequest) {
   try {
@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
       ContentType: file.type,
     });
 
-    await r2Client.send(command);
+    await getR2Client().send(command);
 
     const publicUrl = `${R2_PUBLIC_URL}/${fileName}`;
 
